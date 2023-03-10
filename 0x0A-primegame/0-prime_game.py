@@ -1,13 +1,14 @@
 #!/usr/bin/python3
 """
-    this function determines the winner of a game 
-    args: 
-        x - number of rounds 
+    this function determines the winner of a game
+    args:
+        x - number of rounds
         num - an array of n(any integer)
 
     Return:
-        string: representing the winner 
+        string: representing the winner
 """
+
 
 def isWinner(x, nums):
     def is_prime(num):
@@ -41,7 +42,7 @@ def isWinner(x, nums):
             wins["Ben"] += 1
         else:
             wins["Maria"] += 1
-    
+
     if wins["Maria"] == wins["Ben"]:
         return None
     elif wins["Maria"] > wins["Ben"]:
