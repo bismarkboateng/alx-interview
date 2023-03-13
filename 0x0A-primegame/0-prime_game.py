@@ -1,51 +1,51 @@
 #!/usr/bin/python3
 """
-    this function determines the winner of a game
-    args:
-        x - number of rounds
-        num - an array of n(any integer)
-
-    Return:
-        string: representing the winner
+Contains method to determine the winner of a game
+of prime numbers.
 """
 
 
-def isWinner(x, nums):
-    def is_prime(num):
-        if num < 2:
-            return False
-        for i in range(2, int(num ** 0.5) + 1):
-            if num % i == 0:
-                return False
-        return True
+def prime_numbers_between(n):
+    """
+    calculate prime numbers between 1 and n
+    Args:
+        n (int): the number to calculate prime numbers up to
+    Returns:
+        int: the number of prime numbers between 1 and n
+    """
+    prime_numbers = 0
 
-    wins = {"Maria": 0, "Ben": 0}
-    for n in nums:
-        current_player = "Maria"
-        remaining_nums = set(range(2, n + 1))
-        while True:
-            possible_moves = set()
-            for num in remaining_nums:
-                if is_prime(num):
-                    possible_moves.add(num)
-                    for multiple in range(num * 2, n + 1, num):
-                        possible_moves.discard(multiple)
-            if not possible_moves:
+    for i in range(2, n + 1):
+        is_prime = True
+        for j in range(2, i // 2 + 1):
+            if i % j == 0:
+                is_prime = False
                 break
-            move = max(possible_moves)
-            remaining_nums.difference_update(set(range(move, n + 1, move)))
-            if current_player == "Maria":
-                current_player = "Ben"
-            else:
-                current_player = "Maria"
-        if current_player == "Maria":
-            wins["Ben"] += 1
-        else:
-            wins["Maria"] += 1
+        if is_prime:
+            prime_numbers += 1
+    return prime_numbers
 
-    if wins["Maria"] == wins["Ben"]:
+
+def isWinner(x, nums):
+    """
+    Determines the winner of a game of prime numbers.
+    Args:
+        x (int): the number of rounds to play
+        nums (list): the list of numbers n to play
+    Returns:
+        string: the winner of the game (Ben or Maria)
+    """
+    if not x or not nums:
         return None
-    elif wins["Maria"] > wins["Ben"]:
-        return "Maria"
-    else:
-        return "Ben"
+    ben = 0
+    maria = 0
+    for i in range(x):
+        prime_nums = prime_numbers_between(nums[i])
+        if prime_nums % 2 == 0:
+            ben += 1
+        else:
+            maria += 1
+    if ben == maria:
+        return None
+    winner = "Ben" if ben > maria else "Maria"
+    return winner
